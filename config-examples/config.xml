@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<configuration>
+		<!-- Allow environment variables to override file-based defaults -->
+	 <system/>
+	 <env />  
+	  	<!-- This is the default properties file -->
+  	<properties fileName="/etc/ords/ords.properties"/>
+</configuration>
