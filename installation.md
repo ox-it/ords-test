@@ -18,7 +18,9 @@ Each REST API module depends on a library for common security code:
 * ords-security-common
 
 This dependency is defined in the pom.xml for each of the API modules as usual; 
-you should install this before trying to install the REST modules.
+you should install this before trying to install the REST modules using:
+
+    mvn install
 
 The user interface is:
 
