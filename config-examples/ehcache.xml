@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="true"
+         monitoring="autodetect" dynamicConfig="true">
+
+    <diskStore path="java.io.tmpdir" />
+    <cacheManagerPeerProviderFactory
+            class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
+            properties="peerDiscovery=automatic,
+                        multicastGroupAddress=230.0.0.1,
+                        multicastGroupPort=4446, timeToLive=1"
+            propertySeparator="," />
+
+    <cacheManagerPeerListenerFactory
+            class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory" />
+    <cache name="shiro-activeSessionCache" maxElementsInMemory="600"
+           eternal="true" overflowToDisk="true" memoryStoreEvictionPolicy="LFU">
+        <cacheEventListenerFactory
+                class="net.sf.ehcache.distribution.RMICacheReplicatorFactory" />
+    </cache>
+
+    <defaultCache maxElementsInMemory="100" eternal="true"
+                  overflowToDisk="true" memoryStoreEvictionPolicy="LFU">
+    </defaultCache>
+</ehcache>
