@@ -14,6 +14,10 @@ Each service requires several pieces of configuration in order to work correctly
 
 Finally, there is a *config.xml* that simply identifies the correct paths for these files.
 
+Optionally, if you are using local usernames and passwords, you'll need an *ehcache.xml* file to cache sessions.
+
+Examples of all of these configuration files can be found in the config-examples folder.
+
 ## Where ORDS looks for configuration data
 
 ORDS uses Apache Commons Configuration to load properties. 
