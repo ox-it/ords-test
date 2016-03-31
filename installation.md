@@ -47,7 +47,18 @@ Connection settings for the database are defined in two places:
 * hibernate.cfg.xml
 * ords.properties
 
-(We're assuming here a single properties file setup for ORDS - see the Configuration guide - for advanced setups each API can be deployed and configured separately)
+(We're assuming here a single properties file setup for ORDS - see the Configuration guide - for advanced setups each API can be deployed and configured separately.)
+
+Note that we assume when building and testing that MD5 password checking is in place when connecting to the database - even from the
+same server. Otherwise users can overwrite other user's data without being challenged.
+
+This is configured in your pg_hba.conf file with the line:
+
+    host    all             all             127.0.0.1/32            md5
+    
+By default many PostgreSQL installations will have this set to "Trust", which will not issue a password challenge.
+
+We also assume you are using PostgreSQL versions 9.2 and higher. 
 
 ## Configuration
 
