@@ -8,7 +8,7 @@ Each service requires several pieces of configuration in order to work correctly
 
 * A *shiro.ini* configuration that defines the service security according for Apache Shiro
 * A *hibernate.cfg.xml* configuration that defines the database connection properties for Hibernate
-* A *serverConfig.xml* configuration that specifies the database servers used for user databases
+* A *databaseservers.xml* configuration that specifies the database servers used, bot for user databases and the system itself
 * A *servicename.properties* configuration that defines service-specific properties
 * Session cache configuration (optional)
 
@@ -59,25 +59,27 @@ to the full path to your *shiro.ini* file.
 
 As with Shiro, this can be set by specifying a path using the *ords.hibernate.configuration* property.
 
-## ServerConfig.xml
+## databaseservers.xml
 
 This file specifies the available database servers.
 
-The following configuration specifies one database server for "trial" databases, and a different one for "full" databases.
+The following configuration specifies using the same database server for the ORDS metadata, and another for user databases.
 
 ```
 	<?xml version="1.0" encoding="UTF-8"?>
-	<ordsServerConfig hostName="127.6.10.2:5432">
-	    <serverList>
-	        <server ip="127.6.10.2:5432" name="127.6.10.2:5432" full="false"/>
-	        <server ip="127.6.10.3:5432" name="127.6.10.2:5433" full="true"/>
-	    </serverList>
-	</ordsServerConfig>
+	<servers>
+		<metadata host="localhost" port="5432" username="ords" password="ords" database="ordstest"/>
+		<server host="localhost" port="5432" username="ords" password="ords" database="ordstest"/>
+	</servers>
 ```
+
+Note that the credentials and host/port details here are used instead of any defined within hibernate.cfg.xml.
 
 ## Apache Shiro Configuration
 
 Apache Shiro is configured according to the Apache Shiro documentation; however a typical configuration looks like the one below. This uses form-based authentication using hashed passwords. (This is ORDS' default suggested configuration if you haven't got an organisation-wide SSO)
+
+Note that the data source definition in Shiro has to be defined separately from the metadata tag in databaseservers.xml; we're aware of this duplication of configuration and will try to remove this in future.
 
 ```
 	[main]
@@ -238,7 +240,7 @@ Not all Shiro realm configurations support this directive, in which case authent
 
 ## Hibernate Configuration
 
-The Hibernate configuration is used to define the connection to the common ORDS database used for persisting service-specific data such as users and projects.
+The Hibernate configuration is used to define the connection to the common ORDS database used for persisting service-specific data such as users and projects. Note that you do not need to include the URL, username and password in hibernate.cfg.xml as these are taken from databaseservers.xml.
 
 Note that for some specific functionality, ORDS services also need direct JDBC connection details, specified in the properties file.
 
@@ -261,19 +263,7 @@ The following is an example of a combined properties file for a single ORDS inst
 	#
 	# Server Config Location - common server config
 	#
-	ords.server.configuration=/var/lib/openshift/564358a22d52710b1200006c/app-root/data/serverConfig.xml
-
-	#
-	# JDBC Database configuration - used by Statistics and Schema Editor
-	#
-	ords.database.user=zzzz
-	ords.database.password=zzzzz
-	ords.database.rootdbuser=xxxx
-	ords.database.rootdbpassword=yyyy
-	ords.odbc.masterpassword=zzzz
-	postgresConnectorFile=postgresql-8.4-702.jdbc4.jar
-	ords.database.name=ords
-	ords.database.server.host=127.6.10.2:5432
+	ords.server.configuration=/var/lib/openshift/564358a22d52710b1200006c/app-root/data/databaseservers.xml
 
 	#
 	# The localuser suffix is used to automatically map
