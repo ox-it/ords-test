@@ -1,5 +1,22 @@
 # Installing ORDS
 
+## Deploying binaries
+
+You can find the latest binary releases here:
+
+http://jcenter.bintray.com/uk/ac/ox/it/ords/
+
+You will need binaries for:
+
+* ords-audit-api
+* ords-database-api
+* ords-database-structure-api
+* ords-project-api
+* ords-statistics-api
+* ords-user-api
+
+Set the ORDS_CONF_DIR environment variable to point to the location of your configuration files, and follow the instructions below for setting up the database server(s) you wish to use.
+
 ## Building from source
 
 ORDS consists of 6 REST API modules, and one user interface module. Each is built and packaged as a WAR for deployment to an application server.
@@ -38,14 +55,9 @@ Each .war file must be deployed to the webapps folder of the application server 
 
 ## Setting up the database
 
-ORDS requires at least one PostgreSQL database server to be set available. 
+ORDS requires at least one PostgreSQL database server to be set available; you can also use one server for ORDS' internal metadata and project information, and another server for user's databases.
 
-Server addresses are defined in the serverConfig.xml configuration file.
-
-Connection settings for the database are defined in two places:
-
-* hibernate.cfg.xml
-* ords.properties
+Server addresses and credentials are defined in the databaseservers.xml configuration file.
 
 (We're assuming here a single properties file setup for ORDS - see the Configuration guide - for advanced setups each API can be deployed and configured separately.)
 
@@ -70,7 +82,7 @@ In the ORDS_CONF_DIR directory you will need, at a minimum:
 * ords.properties
 * shiro.ini
 * config.xml
-* serverConfig.xml
+* databaseservers.xml
 
 Examples of these can be found in this repository; further details are in the configuration guide.
 
